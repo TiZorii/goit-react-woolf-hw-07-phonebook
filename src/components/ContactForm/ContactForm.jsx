@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  ButtonTextWrapper,
   Field,
   FieldWrapper,
   Form,
@@ -8,29 +9,27 @@ import {
   Submit,
 } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts } from '../../redux/selectors';
-import { createContact } from '../../redux/contacts/slice';
+import { selectContacts, selectIsLoading } from '../../redux/selectors';
+import { createContact } from '../../redux/contacts/operations';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [tel, setTel] = useState('');
 
   const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
   const dispatch = useDispatch();
 
   const onSubmitHandler = e => {
     e.preventDefault();
-
     const hasContact = contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
-
     if (hasContact) {
       alert(`${name} is already in contacts`);
     } else {
-      dispatch(createContact({ name, tel }));
+      dispatch(createContact({ name, phone: tel }));
     }
-
     setName('');
     setTel('');
   };
@@ -69,7 +68,9 @@ const ContactForm = () => {
         </Label>
       </FieldWrapper>
 
-      <Submit type="submit">Add contact</Submit>
+      <Submit type="submit" disabled={isLoading}>
+        <ButtonTextWrapper>Add contact</ButtonTextWrapper>
+      </Submit>
     </Form>
   );
 };

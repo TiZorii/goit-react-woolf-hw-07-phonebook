@@ -58,4 +58,16 @@ export const Delete = styled('button')`
   &:hover {
     background-color: rgba(0, 0, 0, 0.1);
   }
+
+  &:disabled {
+    color: rgba(0, 0, 0, 0.2);
+    background-color: white;
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+`;
+
+export const ButtonTextWrapper = styled('span')`
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
 `;
